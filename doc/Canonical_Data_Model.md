@@ -109,6 +109,8 @@ Rule: include one entry per declared north_star.primary_metrics for pooled value
 ### BillingPatch
 
 - billing_patch_id, config_version_id
+- workspace_id
+- cycle_id
 - price_book_ref
 - effective_at
 - payload json
