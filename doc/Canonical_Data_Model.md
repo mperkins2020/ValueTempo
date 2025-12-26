@@ -26,11 +26,11 @@
 
 ### Workspace
 
-- id, name, created_at
+- workspace_id, workspace_name, created_at
 
 ### Cycle
 
-- id, workspace_id
+- cycle_id, workspace_id
 - cycle_type
 - period_length_days
 - start_date, end_date
@@ -42,7 +42,7 @@
 
 ### ValueUnitDefinition
 
-- id, cycle_id
+- value_unit_id, cycle_id
 - name, unit_type
 - event_mapping json (event_type, filters, aggregation)
 - outcome_statement
@@ -56,14 +56,14 @@ Rule: include one entry per declared north_star.primary_metrics for pooled value
 
 ### ValueUnitSnapshot
 
-- id, cycle_id
+- value_unit_snapshot_id, cycle_id
 - version integer
 - value_unit_ids array
 - created_at
 
 ### ConfigVersion
 
-- id, cycle_id, workspace_id
+- config_version_id, cycle_id, workspace_id
 - segment, stage
 - target_environment enum (sandbox, production)
 - version integer
@@ -72,37 +72,43 @@ Rule: include one entry per declared north_star.primary_metrics for pooled value
 - pools json array
 - exploration json
 - rails json
-- billing_patch_ref optional
+- billing_patch_id optional (or billing_patch_ref but then use the same name everywhere)
+- value_unit_snapshot_version integer (or value_unit_snapshot_id)
+- price_book_ref string (this is your rating_agility.price_book_ref source)
 - created_at, updated_at
 
 ### SimulationRun
 
-- id, config_version_id
+- simulation_run_id, config_version_id
 - baseline_config_version_id optional
-- input json (window, filters)
-- output json (metric deltas, risks, regression flags)
+- input json (historical_window_days, filters, pricing_mode, include_exploration_in_results)
+- output json including: primary_metric_deltas, lens_metrics, economics_summary (revenue_usd, cost_usd, margin), exploration_summary (when enabled), risks string[], blocking_issues string[]
 - completeness_result enum (green, amber, red)
 - created_at
 
 ### DecisionRecord
 
-- id, config_version_id, cycle_id
+- decision_id, config_version_id, cycle_id
+- baseline_config_version_id optional
+- billing_patch_id
+- subject_resolution json (or explicit fields: workspace_id, segment, stage, target_environment)
+- value_unit_snapshot_version integer
 - approver_name, approver_role
 - rationale
 - diff json
 - simulation_run_id
-- activated_at
+- effective_at
 - created_at
 
 ### EnforcementEvent
 
-- id, workspace_id, config_version_id, customer_id, occurred_at
+- enforcement_event_id, workspace_id, config_version_id, customer_id, occurred_at
 - event_type enum
 - context json
 
 ### BillingPatch
 
-- id, config_version_id
+- billing_patch_id, config_version_id
 - price_book_ref
 - effective_at
 - payload json
