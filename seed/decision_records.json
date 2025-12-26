@@ -1,0 +1,48 @@
+[
+  {
+    "decision_id": "dec_sandbox_v1",
+    "workspace_id": "ws_1049",
+    "cycle_id": "cycle_2026_01_prod_90d",
+    "config_version_id": "cfg_smb_learning_sandbox_v1",
+    "baseline_config_version_id": null,
+    "simulation_run_id": "sim_sandbox_v1_30d",
+    "billing_patch_id": "bp_sandbox_v1",
+    "subject_resolution": {
+      "workspace_id": "ws_1049",
+      "segment": "ai_video_smb",
+      "stage": "learning",
+      "target_environment": "sandbox"
+    },
+    "status": "active",
+    "approver_name": "Theresa",
+    "approver_role": "CEO",
+    "rationale": "Seed activation for sandbox learning config.",
+    "effective_at": "2026-01-01T00:00:00Z",
+    "created_at": "2026-01-01T00:20:00Z",
+    "value_unit_snapshot_version": 1,
+    "diff": { "type": "initial_activation", "changes": [] }
+  },
+  {
+    "decision_id": "dec_prod_v1",
+    "workspace_id": "ws_1049",
+    "cycle_id": "cycle_2026_01_prod_90d",
+    "config_version_id": "cfg_smb_learning_prod_v1",
+    "baseline_config_version_id": null,
+    "simulation_run_id": "sim_prod_v1_30d",
+    "billing_patch_id": "bp_prod_v1",
+    "subject_resolution": {
+      "workspace_id": "ws_1049",
+      "segment": "ai_video_smb",
+      "stage": "learning",
+      "target_environment": "production"
+    },
+    "status": "active",
+    "approver_name": "Theresa",
+    "approver_role": "CEO",
+    "rationale": "Seed activation for production baseline config.",
+    "effective_at": "2026-01-01T00:00:00Z",
+    "created_at": "2026-01-01T00:25:00Z",
+    "value_unit_snapshot_version": 1,
+    "diff": { "type": "initial_activation", "changes": [] }
+  }
+]
