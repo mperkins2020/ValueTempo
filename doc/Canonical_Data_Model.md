@@ -22,6 +22,7 @@
 - `TargetEnvironment`: sandbox, production
 - `ExpectedImpact`: positive, negative, unknown
 - `GoalType`: pmf_learning, revenue, margin, market_share, data_flywheel
+- `PriceMode`: use_unit_economics
 
 ### Minimal field list
 
@@ -122,4 +123,9 @@ Rule: Activation sets status=active and archives any prior active config for the
 ### Customer (Catalog)
 - customer_id, name
 - segment_id (stable segment ID, e.g., ai_video_smb)
+- created_at
+
+### Segment (Catalog)
+- segment_id, label
+- description optional
 - created_at
