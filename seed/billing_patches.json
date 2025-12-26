@@ -1,0 +1,77 @@
+[
+  {
+    "billing_patch_id": "bp_sandbox_v1",
+    "workspace_id": "ws_1049",
+    "cycle_id": "cycle_2026_01_prod_90d",
+    "config_version_id": "cfg_smb_learning_sandbox_v1",
+    "created_at": "2026-01-01T00:10:00Z",
+    "price_book_ref": "usd_2026_01_default",
+    "payload": {
+      "target_environment": "sandbox",
+      "subject_resolution": {
+        "workspace_id": "ws_1049",
+        "segment": "ai_video_smb",
+        "stage": "learning",
+        "target_environment": "sandbox"
+      },
+      "meters": [
+        {
+          "meter_id": "mtr_usable_hd_minutes",
+          "event_type": "video_render_completed",
+          "aggregation": { "type": "sum", "field": "output_minutes" },
+          "filters": { "resolution": "HD", "render_mode": "production" }
+        },
+        {
+          "meter_id": "mtr_draft_exports",
+          "event_type": "draft_export_created",
+          "aggregation": { "type": "count" },
+          "filters": {}
+        }
+      ],
+      "products": [{ "product_id": "prod_lumina_smb", "label": "Lumina SMB" }],
+      "rate_cards": [
+        {
+          "rate_card_id": "rc_sandbox",
+          "lines": [
+            { "meter_id": "mtr_usable_hd_minutes", "price_per_unit_usd": 0.6 },
+            { "meter_id": "mtr_draft_exports", "price_per_unit_usd": 0 }
+          ]
+        }
+      ],
+      "notes": "MVP export only. No Metronome calls."
+    }
+  },
+  {
+    "billing_patch_id": "bp_prod_v1",
+    "workspace_id": "ws_1049",
+    "cycle_id": "cycle_2026_01_prod_90d",
+    "config_version_id": "cfg_smb_learning_prod_v1",
+    "created_at": "2026-01-01T00:15:00Z",
+    "price_book_ref": "usd_2026_01_default",
+    "payload": {
+      "target_environment": "production",
+      "subject_resolution": {
+        "workspace_id": "ws_1049",
+        "segment": "ai_video_smb",
+        "stage": "learning",
+        "target_environment": "production"
+      },
+      "meters": [
+        {
+          "meter_id": "mtr_usable_hd_minutes",
+          "event_type": "video_render_completed",
+          "aggregation": { "type": "sum", "field": "output_minutes" },
+          "filters": { "resolution": "HD", "render_mode": "production" }
+        }
+      ],
+      "products": [{ "product_id": "prod_lumina_smb", "label": "Lumina SMB" }],
+      "rate_cards": [
+        {
+          "rate_card_id": "rc_prod_v1",
+          "lines": [{ "meter_id": "mtr_usable_hd_minutes", "price_per_unit_usd": 0.6 }]
+        }
+      ],
+      "notes": "MVP export only. No Metronome calls."
+    }
+  }
+]
