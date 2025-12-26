@@ -280,7 +280,7 @@ Include:
 - event\_catalog.json  
 - metric\_catalog.json  
 - quality\_signal\_catalog.json  
-- customers.json  
+- seed/customers.json  
 - segment\_catalog.json  
 - usage\_events.json  
 - cycles.json  

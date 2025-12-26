@@ -1,0 +1,251 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+enum CycleType {
+  sandbox
+  production
+}
+
+enum Stage {
+  learning
+  scaling
+}
+
+enum ConfigStatus {
+  draft
+  simulated
+  active
+  archived
+}
+
+enum Action {
+  warn
+  throttle
+  block
+  require_approval
+  degrade_quality
+}
+
+enum EnforcementEventType {
+  rail_warning_shown
+  rail_throttle_applied
+  hard_cap_blocked
+  override_approved
+  exploration_graduated
+  quality_proxy_failed
+}
+
+enum OverageBehavior {
+  allow_overage
+  throttle
+  hard_stop
+}
+
+enum EconomicsConfidence {
+  rough
+  medium
+  high
+}
+
+enum TargetEnvironment {
+  sandbox
+  production
+}
+
+enum ExpectedImpact {
+  positive
+  negative
+  unknown
+}
+
+enum GoalType {
+  pmf_learning
+  revenue
+  margin
+  market_share
+  data_flywheel
+}
+
+enum PricingMode {
+  use_unit_economics
+}
+
+enum CompletenessStatus {
+  green
+  amber
+  red
+}
+
+model Workspace {
+  workspace_id   String   @id
+  workspace_name String
+  created_at     DateTime @default(now())
+  cycles         Cycle[]
+  enforcementEvents EnforcementEvent[]
+}
+
+model Cycle {
+  cycle_id          String   @id
+  workspace_id      String
+  cycle_type        CycleType
+  period_length_days Int
+  start_date        String
+  end_date          String
+  goal_type         GoalType?
+  primary_metrics   String   // JSON array
+  segments          String   // JSON array
+  narrative         String?
+  created_at        DateTime @default(now())
+  workspace         Workspace @relation(fields: [workspace_id], references: [workspace_id])
+  valueUnitDefinitions ValueUnitDefinition[]
+  valueUnitSnapshots ValueUnitSnapshot[]
+  configVersions    ConfigVersion[]
+  decisionRecords   DecisionRecord[]
+}
+
+model ValueUnitDefinition {
+  value_unit_id         String   @id
+  cycle_id              String
+  name                  String
+  unit_type             String
+  event_mapping         String   // JSON
+  outcome_statement      String
+  quality_signal_source  String   // JSON array of signal_id strings
+  quality_note          String?
+  unit_economics        String   // JSON
+  metrics_intent        String   // JSON array
+  completeness_status   CompletenessStatus
+  created_at            DateTime @default(now())
+  updated_at            DateTime @updatedAt
+  cycle                 Cycle    @relation(fields: [cycle_id], references: [cycle_id])
+}
+
+model ValueUnitSnapshot {
+  value_unit_snapshot_id String   @id
+  cycle_id               String
+  version                Int
+  value_unit_ids         String   // JSON array
+  created_at             DateTime @default(now())
+  cycle                  Cycle    @relation(fields: [cycle_id], references: [cycle_id])
+}
+
+model ConfigVersion {
+  config_version_id            String   @id
+  cycle_id                     String
+  workspace_id                 String
+  segment                      String
+  stage                        Stage
+  target_environment           TargetEnvironment
+  version                      Int
+  status                       ConfigStatus
+  effective_at                 DateTime
+  pools                        String   // JSON array
+  exploration                  String   // JSON
+  rails                        String   // JSON
+  billing_patch_id             String?
+  value_unit_snapshot_version  Int
+  price_book_ref               String
+  created_at                   DateTime @default(now())
+  updated_at                   DateTime @updatedAt
+  cycle                        Cycle    @relation(fields: [cycle_id], references: [cycle_id])
+  simulationRuns               SimulationRun[]
+  decisionRecords              DecisionRecord[]
+  enforcementEvents            EnforcementEvent[]
+  billingPatches               BillingPatch[]
+}
+
+model SimulationRun {
+  simulation_run_id            String   @id
+  config_version_id            String
+  baseline_config_version_id   String?
+  input                        String   // JSON
+  output                       String   // JSON
+  completeness_result          CompletenessStatus
+  created_at                   DateTime @default(now())
+  configVersion                ConfigVersion @relation(fields: [config_version_id], references: [config_version_id])
+}
+
+model DecisionRecord {
+  decision_id                  String   @id
+  config_version_id            String
+  cycle_id                     String
+  baseline_config_version_id   String?
+  billing_patch_id             String
+  subject_resolution           String   // JSON
+  value_unit_snapshot_version  Int
+  approver_name                String
+  approver_role                String
+  rationale                    String
+  diff                         String   // JSON
+  simulation_run_id            String
+  effective_at                 DateTime
+  created_at                   DateTime @default(now())
+  configVersion                ConfigVersion @relation(fields: [config_version_id], references: [config_version_id])
+  cycle                        Cycle    @relation(fields: [cycle_id], references: [cycle_id])
+}
+
+model EnforcementEvent {
+  enforcement_event_id String   @id
+  workspace_id         String
+  config_version_id    String
+  customer_id          String
+  occurred_at          DateTime
+  event_type           EnforcementEventType
+  context              String   // JSON
+  workspace            Workspace @relation(fields: [workspace_id], references: [workspace_id])
+  configVersion        ConfigVersion @relation(fields: [config_version_id], references: [config_version_id])
+}
+
+model BillingPatch {
+  billing_patch_id  String   @id
+  config_version_id String
+  workspace_id      String
+  cycle_id          String
+  price_book_ref    String
+  effective_at      DateTime
+  payload           String   // JSON
+  created_at        DateTime @default(now())
+  configVersion     ConfigVersion @relation(fields: [config_version_id], references: [config_version_id])
+}
+
+// Catalog tables
+model EventCatalog {
+  event_type  String @id
+  description String
+  dimensions  String // JSON array
+}
+
+model MetricCatalog {
+  metric_id String @id
+  label     String
+  type      String
+}
+
+model QualitySignalCatalog {
+  signal_id String @id
+  label     String
+  source    String
+}
+
+model Customer {
+  customer_id String @id
+  name        String
+  segment_id  String // stable segment ID, e.g., ai_video_smb
+  created_at  DateTime @default(now())
+}
+
+model SegmentCatalog {
+  segment_id  String   @id
+  label        String
+  description  String?
+  created_at   DateTime @default(now())
+}
+
