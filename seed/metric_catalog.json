@@ -1,0 +1,7 @@
+[
+  { "metric_id": "paid_engagement_retention_90d", "label": "Paid engagement retention (90d)", "type": "north_star" },
+  { "metric_id": "monthly_churn_rate", "label": "Monthly churn rate", "type": "north_star" },
+  { "metric_id": "gross_margin", "label": "Gross margin", "type": "north_star" },
+  { "metric_id": "exploration_depth", "label": "Exploration depth", "type": "lens" },
+  { "metric_id": "margin_floor_violations", "label": "Margin floor violations", "type": "lens" }
+]
