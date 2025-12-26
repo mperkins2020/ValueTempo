@@ -16,6 +16,7 @@
 - `Stage`: learning, scaling
 - `ConfigStatus`: draft, simulated, approved, active, archived
 - `Action`: warn, throttle, block, require_approval, degrade_quality
+- `EnforcementEventType`: rail_warning_shown, rail_throttle_applied, hard_cap_blocked, override_approved, exploration_graduated, quality_proxy_failed
 - `OverageBehavior`: allow_overage, throttle, hard_stop
 - `EconomicsConfidence`: rough, medium, high
 - `TargetEnvironment`: sandbox, production
@@ -50,7 +51,7 @@
 - quality_note optional string (advisory-only explanation, does not affect billing math)
 - unit_economics json (avg_cost_per_unit_usd, target_price_per_unit_usd, target_margin, economics_confidence)
 - metrics_intent: array of objects, each { metric_id: string, expected_impact: "positive" | "negative" | "unknown" }
-Rule: include one entry per declared north_star.primary_metrics for pooled value units.
+  Rule: include one entry per declared cycle.primary_metrics for pooled value units.
 - completeness_status enum (green, amber, red)
 - created_at, updated_at
 
@@ -67,14 +68,14 @@ Rule: include one entry per declared north_star.primary_metrics for pooled value
 - segment, stage
 - target_environment enum (sandbox, production)
 - version integer
-- status ConfigStatus
+- ConfigVersion.status = active (not approved)
 - effective_at
 - pools json array
 - exploration json
 - rails json
-- billing_patch_id optional (or billing_patch_ref but then use the same name everywhere)
-- value_unit_snapshot_version integer (or value_unit_snapshot_id)
-- price_book_ref string (this is your rating_agility.price_book_ref source)
+- billing_patch_id optional
+- value_unit_snapshot_version integer
+- price_book_ref string
 - created_at, updated_at
 
 ### SimulationRun
@@ -103,7 +104,7 @@ Rule: include one entry per declared north_star.primary_metrics for pooled value
 ### EnforcementEvent
 
 - enforcement_event_id, workspace_id, config_version_id, customer_id, occurred_at
-- event_type enum
+- event_type EnforcementEventType
 - context json
 
 ### BillingPatch
@@ -114,4 +115,9 @@ Rule: include one entry per declared north_star.primary_metrics for pooled value
 - price_book_ref
 - effective_at
 - payload json
+- created_at
+
+### Customer(Catalog)
+- customer_id, name
+- segment_id
 - created_at
