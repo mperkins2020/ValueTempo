@@ -18,6 +18,9 @@
 - `Action`: warn, throttle, block, require_approval, degrade_quality
 - `OverageBehavior`: allow_overage, throttle, hard_stop
 - `EconomicsConfidence`: rough, medium, high
+- `TargetEnvironment: sandbox, production
+- `ExpectedImpact: positive, negative, unknown
+- `GoalType: pmf_learning, revenue, margin, market_share, data_flywheel
 
 ### Minimal field list
 
