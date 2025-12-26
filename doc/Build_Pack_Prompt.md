@@ -342,6 +342,14 @@ Billing patch:
 
 \- Provide an export button to view and copy the JSON.
 
+Billing patch export:
+\- POST /api/export/billing-patch
+  Input: { config_version_id }
+  Output: BillingPatch { billing_patch_id, price_book_ref, effective_at, payload }
+
+\- GET /api/billing-patch/:config_version_id
+  Output: BillingPatch { billing_patch_id, price_book_ref, effective_at, payload }
+
 Seed data:
 
 Load JSON files from /seed/\*.json on first run into SQLite via a seed script.
