@@ -1,0 +1,5 @@
+[
+  { "signal_id": "csat", "label": "CSAT", "source": "in_app_prompt" },
+  { "signal_id": "edit_reopen_rate", "label": "Edit reopen rate", "source": "product_events" },
+  { "signal_id": "manual_qa_pass", "label": "Manual QA pass rate", "source": "ops_review" }
+]
