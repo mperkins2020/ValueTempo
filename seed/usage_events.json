@@ -1,0 +1,57 @@
+[
+  {
+    "ts": "2026-01-02T10:05:00Z",
+    "event_type": "video_render_completed",
+    "workspace_id": "ws_1049",
+    "customer_id": "cust_2001",
+    "segment": "ai_video_smb",
+    "resolution": "HD",
+    "render_mode": "production",
+    "output_minutes": 6
+  },
+  {
+    "ts": "2026-01-02T11:20:00Z",
+    "event_type": "video_render_completed",
+    "workspace_id": "ws_1049",
+    "customer_id": "cust_2001",
+    "segment": "ai_video_smb",
+    "resolution": "HD",
+    "render_mode": "production",
+    "output_minutes": 4
+  },
+  {
+    "ts": "2026-01-03T09:10:00Z",
+    "event_type": "draft_export_created",
+    "workspace_id": "ws_1049",
+    "customer_id": "cust_2001",
+    "segment": "ai_video_smb",
+    "resolution": "HD"
+  },
+  {
+    "ts": "2026-01-03T09:12:00Z",
+    "event_type": "labs_feature_used",
+    "workspace_id": "ws_1049",
+    "customer_id": "cust_2001",
+    "segment": "ai_video_smb",
+    "feature_name": "auto_scene_cut"
+  },
+  {
+    "ts": "2026-01-04T14:00:00Z",
+    "event_type": "video_render_completed",
+    "workspace_id": "ws_1049",
+    "customer_id": "cust_2001",
+    "segment": "ai_video_smb",
+    "resolution": "4K",
+    "render_mode": "production",
+    "output_minutes": 2
+  },
+  {
+    "ts": "2026-01-05T16:40:00Z",
+    "event_type": "quality_proxy_recorded",
+    "workspace_id": "ws_1049",
+    "customer_id": "cust_2001",
+    "segment": "ai_video_smb",
+    "proxy_type": "csat",
+    "proxy_value": 4
+  }
+]
