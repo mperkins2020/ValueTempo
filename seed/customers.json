@@ -1,0 +1,4 @@
+[
+  { "customer_id": "cust_2001", "name": "Pioneer Studio", "segment": "ai_video_smb" },
+  { "customer_id": "cust_2002", "name": "Northwind Media", "segment": "ai_video_enterprise" }
+]
