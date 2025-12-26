@@ -1,0 +1,170 @@
+[
+  {
+    "simulation_run_id": "sim_sandbox_v1_30d",
+    "workspace_id": "ws_1049",
+    "cycle_id": "cycle_2026_01_prod_90d",
+    "config_version_id": "cfg_smb_learning_sandbox_v1",
+    "baseline_config_version_id": null,
+    "created_at": "2026-01-05T18:00:00Z",
+    "inputs": {
+      "historical_window_days": 30,
+      "filter_target_segment_stage": true,
+      "include_exploration_in_results": true,
+      "pricing_mode": "revenue_proxy_total"
+    },
+    "outputs": {
+      "primary_metric_deltas": {
+        "paid_engagement_retention_90d": null,
+        "gross_margin": null
+      },
+      "lens_metrics": {
+        "exploration_depth": 2,
+        "margin_floor_violations": 0
+      },
+      "economics": {
+        "overage_revenue_usd": 0,
+        "revenue_proxy_total_usd": 6,
+        "cost_total_usd": 1.82,
+        "margin_proxy": 0.6967
+      },
+      "pool_breakdown": [
+        {
+          "pool_id": "pool_core",
+          "value_unit_id": "vu_usable_hd_minute",
+          "total_units": 10,
+          "included_units": 200,
+          "overage_units": 0,
+          "avg_cost_per_unit_usd": 0.18,
+          "target_price_per_unit_usd": 0.6,
+          "cost_usd": 1.8,
+          "revenue_proxy_usd": 6,
+          "overage_revenue_usd": 0
+        },
+        {
+          "pool_id": "pool_exploration",
+          "value_unit_id": "vu_draft_export",
+          "total_units": 1,
+          "included_units": 40,
+          "overage_units": 0,
+          "avg_cost_per_unit_usd": 0.02,
+          "target_price_per_unit_usd": 0,
+          "cost_usd": 0.02,
+          "revenue_proxy_usd": 0,
+          "overage_revenue_usd": 0
+        }
+      ],
+      "risks": [],
+      "blocking_issues": []
+    }
+  },
+  {
+    "simulation_run_id": "sim_prod_v1_30d",
+    "workspace_id": "ws_1049",
+    "cycle_id": "cycle_2026_01_prod_90d",
+    "config_version_id": "cfg_smb_learning_prod_v1",
+    "baseline_config_version_id": null,
+    "created_at": "2026-01-05T18:05:00Z",
+    "inputs": {
+      "historical_window_days": 30,
+      "filter_target_segment_stage": true,
+      "include_exploration_in_results": false,
+      "pricing_mode": "revenue_proxy_total"
+    },
+    "outputs": {
+      "primary_metric_deltas": {
+        "paid_engagement_retention_90d": null,
+        "gross_margin": null
+      },
+      "lens_metrics": {
+        "exploration_depth": 0,
+        "margin_floor_violations": 0
+      },
+      "economics": {
+        "overage_revenue_usd": 0,
+        "revenue_proxy_total_usd": 6,
+        "cost_total_usd": 1.8,
+        "margin_proxy": 0.7
+      },
+      "pool_breakdown": [
+        {
+          "pool_id": "pool_core",
+          "value_unit_id": "vu_usable_hd_minute",
+          "total_units": 10,
+          "included_units": 250,
+          "overage_units": 0,
+          "avg_cost_per_unit_usd": 0.18,
+          "target_price_per_unit_usd": 0.6,
+          "cost_usd": 1.8,
+          "revenue_proxy_usd": 6,
+          "overage_revenue_usd": 0
+        }
+      ],
+      "risks": [],
+      "blocking_issues": []
+    }
+  },
+  {
+    "simulation_run_id": "sim_prod_v2_candidate_30d",
+    "workspace_id": "ws_1049",
+    "cycle_id": "cycle_2026_01_prod_90d",
+    "config_version_id": "cfg_smb_learning_prod_v2_candidate",
+    "baseline_config_version_id": "cfg_smb_learning_prod_v1",
+    "created_at": "2026-01-05T18:10:00Z",
+    "inputs": {
+      "historical_window_days": 30,
+      "filter_target_segment_stage": true,
+      "include_exploration_in_results": false,
+      "pricing_mode": "revenue_proxy_total"
+    },
+    "outputs": {
+      "primary_metric_deltas": {
+        "paid_engagement_retention_90d": 0.01,
+        "gross_margin": -0.0021
+      },
+      "lens_metrics": {
+        "exploration_depth": 0,
+        "margin_floor_violations": 0
+      },
+      "economics": {
+        "overage_revenue_usd": 0,
+        "revenue_proxy_total_usd": 9.6,
+        "cost_total_usd": 2.9,
+        "margin_proxy": 0.6979
+      },
+      "pool_breakdown": [
+        {
+          "pool_id": "pool_core",
+          "value_unit_id": "vu_usable_hd_minute",
+          "total_units": 10,
+          "included_units": 300,
+          "overage_units": 0,
+          "avg_cost_per_unit_usd": 0.18,
+          "target_price_per_unit_usd": 0.6,
+          "cost_usd": 1.8,
+          "revenue_proxy_usd": 6,
+          "overage_revenue_usd": 0
+        },
+        {
+          "pool_id": "pool_4k",
+          "value_unit_id": "vu_usable_4k_minute",
+          "total_units": 2,
+          "included_units": 40,
+          "overage_units": 0,
+          "avg_cost_per_unit_usd": 0.55,
+          "target_price_per_unit_usd": 1.8,
+          "cost_usd": 1.1,
+          "revenue_proxy_usd": 3.6,
+          "overage_revenue_usd": 0
+        }
+      ],
+      "deltas_vs_baseline": {
+        "revenue_proxy_total_usd_delta": 3.6,
+        "cost_total_usd_delta": 1.1,
+        "margin_proxy_delta": -0.0021,
+        "exploration_depth_delta": 0
+      },
+      "risks": [],
+      "blocking_issues": []
+    }
+  }
+]
