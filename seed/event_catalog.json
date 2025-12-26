@@ -1,0 +1,22 @@
+[
+  {
+    "event_type": "video_render_completed",
+    "description": "A render finishes and outputs a video file",
+    "dimensions": ["resolution", "render_mode", "output_minutes", "workspace_id", "customer_id", "segment"]
+  },
+  {
+    "event_type": "draft_export_created",
+    "description": "User exports a draft output",
+    "dimensions": ["resolution", "workspace_id", "customer_id", "segment"]
+  },
+  {
+    "event_type": "labs_feature_used",
+    "description": "User triggers an experimental feature",
+    "dimensions": ["feature_name", "workspace_id", "customer_id", "segment"]
+  },
+  {
+    "event_type": "quality_proxy_recorded",
+    "description": "A quality proxy is recorded for an output",
+    "dimensions": ["proxy_type", "proxy_value", "workspace_id", "customer_id"]
+  }
+]
