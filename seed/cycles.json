@@ -1,0 +1,14 @@
+[
+  {
+    "cycle_id": "cycle_2026_01_prod_90d",
+    "workspace_id": "ws_1049",
+    "cycle_type": "production",
+    "period_length_days": 90,
+    "start_date": "2026-01-01",
+    "end_date": "2026-04-01",
+    "goal_type": "pmf_learning",
+    "segments": ["ai_video_smb"],
+    "primary_metrics": ["paid_engagement_retention_90d", "gross_margin"],
+    "narrative": "Improve time-to-aha while maintaining margin safety."
+  }
+]
