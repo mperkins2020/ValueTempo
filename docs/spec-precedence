@@ -1,0 +1,5 @@
+“Spec precedence: (1) Build Pack Prompt, (2) PRD, (3) MVP User Flows, (4) Canonical Data Model, (5) Seed JSON Reference.”
+
+“Do not invent new field names.”
+
+“If naming conflicts exist, follow (1).”
