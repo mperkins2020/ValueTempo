@@ -22,7 +22,7 @@
 - `TargetEnvironment`: sandbox, production
 - `ExpectedImpact`: positive, negative, unknown
 - `GoalType`: pmf_learning, revenue, margin, market_share, data_flywheel
-- `PriceMode`: use_unit_economics
+- `PricingMode`: use_unit_economics
 
 ### Minimal field list
 
@@ -85,7 +85,7 @@ Rule: Activation sets status=active and archives any prior active config for the
 
 - simulation_run_id, config_version_id
 - baseline_config_version_id optional
-- input json (historical_window_days, filters, pricing_mode, include_exploration_in_results)
+- input json (historical_window_days, filters, pricing_mode: PricingMode, include_exploration_in_results)
 - output json including: primary_metric_deltas, lens_metrics, economics_summary (revenue_usd, cost_usd, margin), exploration_summary (when enabled), risks string[], blocking_issues string[]
 - completeness_result enum (green, amber, red)
 - created_at
