@@ -14,7 +14,7 @@
 
 - `CycleType`: sandbox, production
 - `Stage`: learning, scaling
-- `ConfigStatus`: draft, simulated, approved, active, archived
+- `ConfigStatus`: draft, simulated, active, archived
 - `Action`: warn, throttle, block, require_approval, degrade_quality
 - `EnforcementEventType`: rail_warning_shown, rail_throttle_applied, hard_cap_blocked, override_approved, exploration_graduated, quality_proxy_failed
 - `OverageBehavior`: allow_overage, throttle, hard_stop
@@ -66,9 +66,9 @@
 
 - config_version_id, cycle_id, workspace_id
 - segment, stage
-- target_environment enum (sandbox, production)
+- target_environment (TargetEnvironment)
 - version integer
-- ConfigVersion.status = active (not approved)
+- status (ConfigStatus)
 - effective_at
 - pools json array
 - exploration json
@@ -77,6 +77,8 @@
 - value_unit_snapshot_version integer
 - price_book_ref string
 - created_at, updated_at
+  
+Rule: Activation sets status=active and archives any prior active config for the same subject_resolution.
 
 ### SimulationRun
 
@@ -92,7 +94,7 @@
 - decision_id, config_version_id, cycle_id
 - baseline_config_version_id optional
 - billing_patch_id
-- subject_resolution json (or explicit fields: workspace_id, segment, stage, target_environment)
+- subject_resolution json { workspace_id, segment, stage, target_environment }
 - value_unit_snapshot_version integer
 - approver_name, approver_role
 - rationale
@@ -117,7 +119,7 @@
 - payload json
 - created_at
 
-### Customer(Catalog)
+### Customer (Catalog)
 - customer_id, name
-- segment_id
+- segment_id (stable segment ID, e.g., ai_video_smb)
 - created_at
