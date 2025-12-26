@@ -234,7 +234,7 @@ avs\_config response shape (must be deterministic and versioned):
 
   metric\_lenses: \[metric\_id...\],
 
-  governance: { approval\_ref?, config\_status, audit: \[ {type, by, at}... \] },
+  governance: { config_version_id, approval_ref?, config_status, audit: [ {type, by, at}... ] },
 
   generated\_at,
 
