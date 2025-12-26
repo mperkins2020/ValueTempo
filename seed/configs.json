@@ -1,0 +1,128 @@
+[
+  {
+    "config_version_id": "cfg_smb_learning_sandbox_v1",
+    "workspace_id": "ws_1049",
+    "cycle_id": "cycle_2026_01_prod_90d",
+    "segment": "ai_video_smb",
+    "stage": "learning",
+    "target_environment": "sandbox",
+    "version": 1,
+    "status": "active",
+    "effective_at": "2026-01-01T00:00:00Z",
+    "value_unit_snapshot_version": 1,
+    "pools": [
+      {
+        "pool_id": "pool_core",
+        "label": "Core",
+        "value_unit_id": "vu_usable_hd_minute",
+        "included_quantity": 200,
+        "rollover": { "enabled": false },
+        "overage_behavior": "allow_overage",
+        "is_exploration_pool": false
+      },
+      {
+        "pool_id": "pool_exploration",
+        "label": "Exploration",
+        "value_unit_id": "vu_draft_export",
+        "included_quantity": 40,
+        "rollover": { "enabled": false },
+        "overage_behavior": "throttle",
+        "is_exploration_pool": true
+      }
+    ],
+    "exploration": {
+      "enabled": true,
+      "exploration_pool_id": "pool_exploration",
+      "qualifying_events": ["draft_export_created", "labs_feature_used"],
+      "expires_after_days": 30,
+      "graduation_signal": "repeat_usage_threshold"
+    },
+    "rails": {
+      "usage_thresholds": [
+        { "percent": 70, "action": "warn" },
+        { "percent": 90, "action": "warn" },
+        { "percent": 100, "action": "throttle" }
+      ],
+      "monthly_spend_cap_usd": 500,
+      "at_cap_action": "require_approval",
+      "margin_floor": 0.65
+    }
+  },
+  {
+    "config_version_id": "cfg_smb_learning_prod_v1",
+    "workspace_id": "ws_1049",
+    "cycle_id": "cycle_2026_01_prod_90d",
+    "segment": "ai_video_smb",
+    "stage": "learning",
+    "target_environment": "production",
+    "version": 1,
+    "status": "active",
+    "effective_at": "2026-01-01T00:00:00Z",
+    "value_unit_snapshot_version": 1,
+    "pools": [
+      {
+        "pool_id": "pool_core",
+        "label": "Core",
+        "value_unit_id": "vu_usable_hd_minute",
+        "included_quantity": 250,
+        "rollover": { "enabled": false },
+        "overage_behavior": "allow_overage",
+        "is_exploration_pool": false
+      }
+    ],
+    "exploration": { "enabled": false },
+    "rails": {
+      "usage_thresholds": [
+        { "percent": 70, "action": "warn" },
+        { "percent": 90, "action": "throttle" },
+        { "percent": 100, "action": "block" }
+      ],
+      "monthly_spend_cap_usd": 600,
+      "at_cap_action": "require_approval",
+      "margin_floor": 0.68
+    }
+  },
+  {
+    "config_version_id": "cfg_smb_learning_prod_v2_candidate",
+    "workspace_id": "ws_1049",
+    "cycle_id": "cycle_2026_01_prod_90d",
+    "segment": "ai_video_smb",
+    "stage": "learning",
+    "target_environment": "production",
+    "version": 2,
+    "status": "draft",
+    "effective_at": "2026-01-15T00:00:00Z",
+    "value_unit_snapshot_version": 1,
+    "pools": [
+      {
+        "pool_id": "pool_core",
+        "label": "Core",
+        "value_unit_id": "vu_usable_hd_minute",
+        "included_quantity": 300,
+        "rollover": { "enabled": false },
+        "overage_behavior": "allow_overage",
+        "is_exploration_pool": false
+      },
+      {
+        "pool_id": "pool_4k",
+        "label": "4K Pro",
+        "value_unit_id": "vu_usable_4k_minute",
+        "included_quantity": 40,
+        "rollover": { "enabled": false },
+        "overage_behavior": "throttle",
+        "is_exploration_pool": false
+      }
+    ],
+    "exploration": { "enabled": false },
+    "rails": {
+      "usage_thresholds": [
+        { "percent": 70, "action": "warn" },
+        { "percent": 90, "action": "throttle" },
+        { "percent": 100, "action": "block" }
+      ],
+      "monthly_spend_cap_usd": 650,
+      "at_cap_action": "require_approval",
+      "margin_floor": 0.68
+    }
+  }
+]
