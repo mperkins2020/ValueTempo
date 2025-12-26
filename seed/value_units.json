@@ -1,0 +1,73 @@
+[
+  {
+    "value_unit_id": "vu_usable_hd_minute",
+    "cycle_id": "cycle_2026_01_prod_90d",
+    "name": "Usable HD minute",
+    "unit_type": "outcome",
+    "event_mapping": {
+      "event_type": "video_render_completed",
+      "filters": { "resolution": "HD", "render_mode": "production" },
+      "aggregation": { "type": "sum", "field": "output_minutes" }
+    },
+    "outcome_statement": "Completed HD video ready to publish",
+    "quality_signal_source": ["edit_reopen_rate", "csat"],
+    "quality_note": "Advisory only in MVP.",
+    "unit_economics": {
+      "avg_cost_per_unit_usd": 0.18,
+      "target_price_per_unit_usd": 0.6,
+      "target_margin": 0.7,
+      "economics_confidence": "medium"
+    },
+    "metrics_intent": [
+      { "metric_id": "paid_engagement_retention_90d", "expected_impact": "positive" },
+      { "metric_id": "gross_margin", "expected_impact": "unknown" }
+    ]
+  },
+  {
+    "value_unit_id": "vu_usable_4k_minute",
+    "cycle_id": "cycle_2026_01_prod_90d",
+    "name": "Usable 4K minute",
+    "unit_type": "outcome",
+    "event_mapping": {
+      "event_type": "video_render_completed",
+      "filters": { "resolution": "4K", "render_mode": "production" },
+      "aggregation": { "type": "sum", "field": "output_minutes" }
+    },
+    "outcome_statement": "Completed 4K video ready to publish",
+    "quality_signal_source": ["manual_qa_pass"],
+    "quality_note": "Advisory only in MVP.",
+    "unit_economics": {
+      "avg_cost_per_unit_usd": 0.55,
+      "target_price_per_unit_usd": 1.8,
+      "target_margin": 0.7,
+      "economics_confidence": "rough"
+    },
+    "metrics_intent": [
+      { "metric_id": "paid_engagement_retention_90d", "expected_impact": "positive" },
+      { "metric_id": "gross_margin", "expected_impact": "negative" }
+    ]
+  },
+  {
+    "value_unit_id": "vu_draft_export",
+    "cycle_id": "cycle_2026_01_prod_90d",
+    "name": "Draft export",
+    "unit_type": "usage",
+    "event_mapping": {
+      "event_type": "draft_export_created",
+      "filters": {},
+      "aggregation": { "type": "count" }
+    },
+    "outcome_statement": "User exports a draft to test workflow",
+    "quality_signal_source": [],
+    "quality_note": "No quality signals yet. Allowed in sandbox. Blocks production promotion if pooled.",
+    "unit_economics": {
+      "avg_cost_per_unit_usd": 0.02,
+      "target_price_per_unit_usd": 0.0,
+      "target_margin": 0.0,
+      "economics_confidence": "medium"
+    },
+    "metrics_intent": [
+      { "metric_id": "paid_engagement_retention_90d", "expected_impact": "unknown" }
+    ]
+  }
+]
