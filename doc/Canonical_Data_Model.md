@@ -43,7 +43,8 @@
 - name, unit_type
 - event_mapping json (event_type, filters, aggregation)
 - outcome_statement
-- quality_advisory json
+- quality_signal_source string[] (array of signal_id values)
+- quality_note optional string (advisory-only explanation, does not affect billing math)
 - unit_economics json (avg_cost_per_unit_usd, target_price_per_unit_usd, target_margin, economics_confidence)
 - metrics_intent: array of objects, each { metric_id: string, expected_impact: "positive" | "negative" | "unknown" }
 Rule: include one entry per declared north_star.primary_metrics for pooled value units.
