@@ -1,6 +1,5 @@
-// app/decision-log/page.tsx
-import DecisionLogClient from "./decision-log-client";
+import DecisionLogClient from "@/app/decision-log/decision-log-client";
 
-export default function DecisionLogPage() {
+export default function Page() {
   return <DecisionLogClient />;
 }
