@@ -185,11 +185,13 @@ export async function runSimulation(params: {
     }
 
     const econ = parseJson<any>(vu.unit_economics, null);
-    if (!econ?.avg_cost_per_unit_usd && econ?.avg_cost_per_unit_usd !== 0) {
+    const c = econ?.avg_cost_per_unit_usd;
+    if (typeof c !== "number" || !Number.isFinite(c) || c < 0) {
       blocking_issues.push(`Missing unit_economics.avg_cost_per_unit_usd for ${vu.value_unit_id}`);
       continue;
     }
-    if (!econ?.target_price_per_unit_usd && econ?.target_price_per_unit_usd !== 0) {
+    const p = econ?.target_price_per_unit_usd;
+    if (typeof p !== "number" || !Number.isFinite(p) || p < 0) {
       blocking_issues.push(`Missing unit_economics.target_price_per_unit_usd for ${vu.value_unit_id}`);
       continue;
     }
@@ -197,8 +199,8 @@ export async function runSimulation(params: {
     const totalUnits = usageByVU[vu.value_unit_id] || 0;
     const included = Number(pool.included_quantity) || 0;
     const overage = Math.max(0, totalUnits - included);
-    const pricePerUnit = Number(econ.target_price_per_unit_usd || 0);
-    const costPerUnit = Number(econ.avg_cost_per_unit_usd || 0);
+    const pricePerUnit = p;
+    const costPerUnit = c;
 
     // Determine pricing mode and commit semantics for this pool
     const poolPricingModeUsed = params.pool_pricing_mode_overrides?.[pool.pool_id] ?? params.pricing_mode;
@@ -264,14 +266,11 @@ export async function runSimulation(params: {
   revenue_usage_total_usd = revenue_usage_total_usd * segment_customer_count;
   revenue_usage_overage_usd = revenue_usage_overage_usd * segment_customer_count;
 
-  // Compute margin with special handling when revenue_billed_usd is 0
-  // If ALL revenue_billed_usd is 0 and at least one pool is use_unit_economics, margin = null
-  // If billed revenue is 0 under any other modes, margin can be null as well (conservative)
-  const hasUseUnitEconomics = pool_breakdown.some(p => p.pricing_mode_used === "use_unit_economics");
+  // Compute margin: null when billed revenue is 0, otherwise compute normally
   let margin: number | null = null;
-  const shouldSkipMarginCheck = revenue_usd === 0; // Conservative: null margin when billed revenue is 0
-  
-  if (!shouldSkipMarginCheck) {
+  if (revenue_usd === 0) {
+    margin = null;
+  } else {
     margin = (revenue_usd - cost_usd) / epsilonDenom(revenue_usd);
   }
 
@@ -379,14 +378,11 @@ export async function runSimulation(params: {
     baseRevUsageOverage = baseRevUsageOverage * segment_customer_count;
 
     // Compute baseline margin with same logic as candidate
-    const hasBaseUseUnitEconomics = baselinePools.some((pool: any) => {
-      const poolPricingModeUsed = params.pool_pricing_mode_overrides?.[pool.pool_id] ?? params.pricing_mode;
-      return poolPricingModeUsed === "use_unit_economics";
-    });
+    // null when billed revenue is 0, otherwise compute normally
     let baseMargin: number | null = null;
-    const shouldSkipBaselineMarginCheck = hasBaseUseUnitEconomics && baseRev === 0;
-    
-    if (!shouldSkipBaselineMarginCheck) {
+    if (baseRev === 0) {
+      baseMargin = null;
+    } else {
       baseMargin = (baseRev - baseCost) / epsilonDenom(baseRev);
     }
 

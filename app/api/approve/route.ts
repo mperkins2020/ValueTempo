@@ -6,6 +6,22 @@ import { prisma } from "@/lib/prisma";
 function nowIso() {
   return new Date().toISOString();
 }
+function safeJsonParse<T>(value: unknown, fallback: T): T {
+  if (value === null || value === undefined) return fallback;
+
+  if (typeof value === "string") {
+    const s = value.trim();
+    if (!s) return fallback;
+    try {
+      return JSON.parse(s) as T;
+    } catch {
+      return fallback;
+    }
+  }
+
+  // already an object/array
+  return value as T;
+}
 
 export const runtime = "nodejs";
 
@@ -90,15 +106,39 @@ export async function POST(req: NextRequest) {
         );
       }
 
-      const rails = JSON.parse(candidate.rails || "{}");
+      const rails = safeJsonParse<Record<string, unknown>>(candidate.rails, {});
       const usage_thresholds = rails?.usage_thresholds ?? [];
 
+      const thresholds = Array.isArray((rails as any)?.usage_thresholds) ? (rails as any).usage_thresholds : [];
       const has7090100 =
-        usage_thresholds.some((x: any) => x.percent === 70) &&
-        usage_thresholds.some((x: any) => x.percent === 90) &&
-        usage_thresholds.some((x: any) => x.percent === 100);
+        thresholds.some((x: any) => x.percent === 70) &&
+        thresholds.some((x: any) => x.percent === 90) &&
+        thresholds.some((x: any) => x.percent === 100);
 
-      if (!rails?.monthly_spend_cap_usd || !rails?.margin_floor || !has7090100) {
+      if (!rails || typeof rails !== "object") {
+        return NextResponse.json(
+          { error: "Rails incomplete for production activation: rails object missing or invalid" },
+          { status: 400 }
+        );
+      }
+
+      const monthlySpendCap = (rails as any).monthly_spend_cap_usd;
+      if (typeof monthlySpendCap !== "number" || !Number.isFinite(monthlySpendCap) || monthlySpendCap < 0) {
+        return NextResponse.json(
+          { error: "Rails incomplete for production activation: monthly_spend_cap_usd must be a number >= 0" },
+          { status: 400 }
+        );
+      }
+
+      const marginFloor = (rails as any).margin_floor;
+      if (typeof marginFloor !== "number" || !Number.isFinite(marginFloor) || marginFloor < 0 || marginFloor > 1) {
+        return NextResponse.json(
+          { error: "Rails incomplete for production activation: margin_floor must be a number between 0 and 1 inclusive" },
+          { status: 400 }
+        );
+      }
+
+      if (!has7090100) {
         return NextResponse.json(
           { error: "Rails incomplete for production activation" },
           { status: 400 }
@@ -112,17 +152,17 @@ export async function POST(req: NextRequest) {
       candidate_config_version_id: candidate.config_version_id,
       before: baseline
         ? {
-            pools: JSON.parse(baseline.pools),
-            exploration: JSON.parse(baseline.exploration),
-            rails: JSON.parse(baseline.rails),
+            pools: safeJsonParse<unknown>(baseline.pools, []),
+            exploration: safeJsonParse<unknown>(baseline.exploration, {}),
+            rails: safeJsonParse<unknown>(baseline.rails, {}),
           }
         : null,
       after: {
-        pools: JSON.parse(candidate.pools),
-        exploration: JSON.parse(candidate.exploration),
-        rails: JSON.parse(candidate.rails),
+        pools: safeJsonParse<unknown>(candidate.pools, []),
+        exploration: safeJsonParse<unknown>(candidate.exploration, {}),
+        rails: safeJsonParse<unknown>(candidate.rails, {}),
       },
-    };
+    };    
 
     // Pre-generate IDs required by schema
     const billing_patch_id = `bp_${randomUUID()}`;

@@ -422,6 +422,7 @@ export default function ConfigReviewClient({
       router.push(`/decision-log/${result.decision_id}`);
     } catch (e: any) {
       setApprovalError(e?.message ?? String(e));
+    } finally {
       setApprovalRunning(false);
     }
   }

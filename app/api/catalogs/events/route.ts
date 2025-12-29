@@ -1,6 +1,19 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 
+function safeJsonParse<T>(v: unknown, fallback: T): T {
+  if (v == null) return fallback;
+  if (typeof v === "object") return v as T;
+  if (typeof v === "string") {
+    try {
+      return JSON.parse(v) as T;
+    } catch {
+      return fallback;
+    }
+  }
+  return fallback;
+}
+
 export async function GET() {
   try {
     const events = await prisma.eventCatalog.findMany({
@@ -10,7 +23,7 @@ export async function GET() {
     const formatted = events.map(event => ({
       event_type: event.event_type,
       description: event.description,
-      dimensions: JSON.parse(event.dimensions),
+      dimensions: safeJsonParse(event.dimensions, {}),
     }))
 
     return NextResponse.json(formatted)
