@@ -40,8 +40,8 @@
     "approver_name": "Theresa",
     "approver_role": "CEO",
     "rationale": "Seed activation for production baseline config.",
-    "effective_at": "2026-01-01T00:00:00Z",
-    "created_at": "2026-01-01T00:25:00Z",
+    "effective_at": "2025-12-01T00:00:00.000Z",
+    "created_at": "2025-12-01T00:25:00.000Z",
     "value_unit_snapshot_version": 1,
     "diff": { "type": "initial_activation", "changes": [] }
   }
