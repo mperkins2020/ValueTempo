@@ -1,4 +1,4 @@
-# Build Pack Prompt v0.6 (AVS Brain by ValueTempo, canonical)
+# Build Pack Prompt v0.7 (AVS Brain by ValueTempo, canonical)
 
 **Spec precedence:** If anything conflicts, follow this order: (1) Build Pack Prompt, (2) PRD, (3) MVP User Flows, (4) Canonical Data Model, (5) Seed JSON Reference. Do not invent new field names, reuse the canonical naming exactly.
 
@@ -126,65 +126,65 @@ Returns an `avs_config` payload for the ACTIVE ConfigVersion (status=`active`) m
 
 The customer app caches this config and enforces without synchronous calls to AVS Brain.
 
-#### avs\_config response shape (must be deterministic and versioned)
+#### avs_config response shape (must be deterministic and versioned)
 
 {
 
- "avs\_version": "v2.0",
+ "avs_version": "v2.0",
 
- "cycle\_id": "cycle\_...",
+ "cycle_id": "cycle_...",
 
- "config\_version\_id": "cfg\_...",
+ "config_version_id": "cfg_...",
 
- "effective\_at": "2026-01-15T00:00:00Z",
+ "effective_at": "2026-01-15T00:00:00Z",
 
- "north\_star": { "goal\_type": "pmf\_learning", "primary\_metrics": \["paid\_engagement\_retention\_90d"\], "narrative": "..." },
+ "north_star": { "goal_type": "pmf_learning", "primary_metrics": \["paid_engagement_retention_90d"\], "narrative": "..." },
 
- "subject\_resolution": { "workspace\_id": "ws\_...", "segment": "ai\_video\_smb", "stage": "learning", "target\_environment": "production" },
+ "subject_resolution": { "workspace_id": "ws_...", "segment": "ai_video_smb", "stage": "learning", "target_environment": "production" },
 
- "quality\_mode": "advisory",
+ "quality_mode": "advisory",
 
- "value\_units": \[
+ "value_units": \[
 
- { "value\_unit\_id": "vu\_...", "name": "Usable HD minute", "event\_mapping": {}, "metrics\_intent": \[\], "quality\_signal\_source": \["csat"\], "unit\_economics": {} }
+ { "value_unit_id": "vu_...", "name": "Usable HD minute", "event_mapping": {}, "metrics_intent": \[\], "quality_signal_source": \["csat"\], "unit_economics": {} }
 
  \],
 
  "pools": \[
 
- { "pool\_id": "pool\_core", "label": "Core", "value\_unit\_id": "vu\_...", "included\_quantity": 300, "rollover": { "enabled": false }, "overage\_behavior": "allow\_overage", "is\_exploration\_pool": false }
+ { "pool_id": "pool_core", "label": "Core", "value_unit_id": "vu_...", "included_quantity": 300, "rollover": { "enabled": false }, "overage_behavior": "allow_overage", "is_exploration_pool": false }
 
  \],
 
- "exploration": { "enabled": true, "exploration\_pool\_id": "pool\_exploration", "qualifying\_events": \["labs\_feature\_used"\], "expires\_after\_days": 30, "graduation\_signal": "repeat\_usage\_threshold" },
+ "exploration": { "enabled": true, "exploration_pool_id": "pool_exploration", "qualifying_events": \["labs_feature_used"\], "expires_after_days": 30, "graduation_signal": "repeat_usage_threshold" },
 
- "rails": { "usage\_thresholds": \[{"percent":70,"action":"warn"}\], "monthly\_spend\_cap\_usd": 650, "at\_cap\_action": "require\_approval", "margin\_floor": 0.68 },
+ "rails": { "usage_thresholds": \[{"percent":70,"action":"warn"}\], "monthly_spend_cap_usd": 650, "at_cap_action": "require_approval", "margin_floor": 0.68 },
 
- "rating\_agility": { "price\_book\_ref": "usd\_2026\_01\_default" },
+ "rating_agility": { "price_book_ref": "usd_2026_01_default" },
 
- "metric\_lenses": \["exploration\_depth", "gross\_margin"\],
+ "metric_lenses": \["exploration_depth", "gross_margin"\],
 
  "governance": {
 
- "config\_version\_id": "cfg\_...",
+ "config_version_id": "cfg_...",
 
- "approval\_ref": "dec\_...",
+ "approval_ref": "dec_...",
 
- "config\_status": "active",
+ "config_status": "active",
 
  "audit": \[{ "type": "approved", "by": "Theresa, CEO", "at": "2026-01-14T23:00:00Z" }\]
 
  },
 
- "generated\_at": "2026-01-14T22:10:00Z",
+ "generated_at": "2026-01-14T22:10:00Z",
 
- "source": "avs\_brain\_operator\_ui"
+ "source": "avs_brain_operator_ui"
 
 }
 
 Notes:
 
-- `governance.approval_ref` must be the `decision_id` of the DecisionRecord that activated this config\_version.
+- `governance.approval_ref` must be the `decision_id` of the DecisionRecord that activated this config_version.
 
 ### Enforcement outcomes
 
@@ -207,7 +207,7 @@ Input:
 - `candidate_config_version_id`  
 - `baseline_config_version_id` (optional)  
 - `historical_window_days` (30/60/90/120 or mocked)  
-- `filters`: segment, stage, target\_environment  
+- `filters`: segment, stage, target_environment  
 - `pricing_mode` (PricingMode, default `use_unit_economics`)  
 - `include_exploration_in_results` (default true)
 
@@ -222,7 +222,7 @@ Activates a ConfigVersion:
 - requires a completed SimulationRun reference  
 - creates a DecisionRecord including: diff vs baseline, approval metadata, `simulation_run_id`, `value_unit_snapshot_version`  
 - generates a BillingPatch JSON payload  
-- enforces one active config per subject\_resolution by archiving any prior active config for the same subject
+- enforces one active config per subject_resolution by archiving any prior active config for the same subject
 
 ### Decision log
 
@@ -242,7 +242,7 @@ Activates a ConfigVersion:
 - `margin = (revenue_usd - cost_usd) / max(revenue_usd, epsilon)`  
 - Compute `exploration_depth = count(qualifying exploration events in window)`.  
 - Flag regressions:  
-- margin\_floor violated  
+- margin_floor violated  
 - spend cap exceeded  
 - Output must include: metric deltas (even if proxies), risks list, blocking issues list.  
 - `historical_window_days` supported: 30, 60, 90, 120, mocked.
@@ -277,19 +277,19 @@ Load JSON files from `/seed/*.json` on first run into SQLite via a seed script.
 Include:
 
 - workspaces.json  
-- event\_catalog.json  
-- metric\_catalog.json  
-- quality\_signal\_catalog.json  
-- seed/customers.json  
-- segment\_catalog.json  
-- usage\_events.json  
+- event_catalog.json  
+- metric_catalog.json  
+- quality_signal_catalog.json  
+- customers.json  
+- segment_catalog.json  
+- usage_events.json  
 - cycles.json  
-- value\_units.json  
-- value\_unit\_snapshots.json  
+- value_units.json  
+- value_unit_snapshots.json  
 - configs.json  
-- simulation\_runs.json  
-- decision\_records.json  
-- billing\_patches.json
+- simulation_runs.json  
+- decision_records.json  
+- billing_patches.json
 
 ## Deliverables
 
